@@ -10,13 +10,17 @@
 public class CashPayment extends Payment {
 
     private double balance;
-
+    private String paymentMethod="Cash";
     public CashPayment(double totalPaid, int paymentID) {
         super(totalPaid,paymentID);
     }
 
     public double getBalance() {
         return balance;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
     }
 
     public double calculateBalance(double totalPaid, double totalAmount) {
