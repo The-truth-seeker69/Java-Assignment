@@ -1,5 +1,3 @@
-
-import static ProductMain.scanner;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -425,7 +423,6 @@ public class OrderModule {
 
             if (confirmDlt == 'N' || confirmDlt == 'n') {
                 System.out.printf("Order ID %03d is Not Deleted.\n", ordDltNo);
-
             } else {
 
                 orderDetailsList.remove(element);

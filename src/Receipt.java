@@ -7,32 +7,21 @@
  *
  * @author chowy
  */
-import java.util.Date;
 public class Receipt {
-    private double subtotal;
-    private double tax;
-    private double finaltotal;
-    private double[] itemPrice={0};
-    private double totalPayment;
-    private Date transactionDate;
-    private String transcationId;
-    
-  public double calculateSubtotal(double[] itemPrice){
-      for(double items:itemPrice){
-          subtotal+=items;
-      }
-      
-      return subtotal;
-  }
-  
-  public void printReceipt(){
-      System.out.println("===================================");
-      System.out.println("Receipt for");
-      System.out.println("===================================");
-  }
-  
-  
-     
+
+    public void printReceipt(double totalAmount, String currDate, String[] items, double[] itemPrices, int[] itemQuantity, int numOfItems, double change, double totalPaid, int orderID, int paymentID, String paymentMethod) {
+        System.out.println("====================================================");
+        System.out.println("    Receipt for Order ID:" + orderID + " Payment ID:" + paymentID + "\n    Date: " + currDate + " Method: " + paymentMethod);
+        System.out.println("====================================================");
+        System.out.printf("    %-15s\tQuantity:\tPrice:\n", "Items:");
+        for (int i = 0; i < numOfItems; i++) {
+            System.out.printf("    %-15s\t%9d\tRM%7.02f\n", items[i], itemQuantity[i], itemPrices[i]);
+        }
+        System.out.println("----------------------------------------------------");
+        System.out.printf("    Total : \t\t\t\tRM%7.02f\n", totalAmount);
+        System.out.printf("    Paid  : \t\t\t\tRM%7.02f\n", totalPaid);
+        System.out.printf("    Change: \t\t\t\tRM%7.02f\n", change);
+        System.out.println("====================================================");
+    }
+
 }
-
-
