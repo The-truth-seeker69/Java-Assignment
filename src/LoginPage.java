@@ -2,65 +2,106 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
+import java.util.*;
 
-
-import java.util.Scanner;
 /**
  *
  * @author Yap Kah Seng
  */
 public class LoginPage {
 
-    private static String username = "Gavin Yap";
-    private static String password = "123";
-    private static boolean isLoggedIn = false;
-    
     public static void main(String[] args) {
+        String usernameInput;
+        String passwordInput;
         Scanner scanner = new Scanner(System.in);
+        int menuChoice = -1;
+        char continueMenu = 0;
 
-        while (true) {
-            if (!isLoggedIn) {
-                System.out.println("Welcome to the Login Page ");
-                System.out.print("Username: ");
-                String inputUsername = scanner.nextLine();
-                System.out.print("Password: ");
-                String inputPassword = scanner.nextLine();
+        User defaultUser = new User("admin", "admin");
 
-                if (login(inputUsername, inputPassword)) {
-                    System.out.println("Login successful!!!");
-                    isLoggedIn = true;
-                } else {
-                    System.out.println("Login failed, Please try again.");
-                }
-            } else {
-                System.out.println("You are logged in.");
-                System.out.println("Do you want to log out? (yes/no)");
-                String logoutChoice = scanner.nextLine().toLowerCase();
+        System.out.print("Enter Username: ");
+        usernameInput = scanner.nextLine();
 
-                if (logoutChoice.equals("yes")) {
-                    logout();
-                    isLoggedIn = false;
-                    System.out.println("Logged out successfully.");
-                } else if (logoutChoice.equals("no")) {
-                    System.out.println("You are still logged in on this page.");
-                } else {
-                    System.out.println("Invalid choice. Please enter 'yes' or 'no'.");
+        System.out.print("Enter PassWord: ");
+        passwordInput = scanner.nextLine();
+
+        while (!defaultUser.equalsUsername(usernameInput) || !defaultUser.equalsPassword(passwordInput)) {
+            System.out.println("Invalid Login Credentials. Please try again.\n");
+            System.out.print("Enter Username: ");
+            usernameInput = scanner.nextLine();
+
+            System.out.print("Enter PassWord: ");
+            passwordInput = scanner.nextLine();
+            
+            if(defaultUser.equalsUsername(usernameInput) && defaultUser.equalsPassword(passwordInput))
+                break;
+        }
+
+        System.out.println("Successfully Logged In.");
+        
+        do {
+            System.out.println("\nWhat category do you wanna view?");
+            System.out.println("1. Order\n"
+                    + "2. Product \n"
+                    + "3. Member\n"
+                    + "0. Logout\n");
+            System.out.print("Enter your option: ");
+            while (true) {
+                try {
+                    menuChoice = scanner.nextInt();
+                    scanner.nextLine();  // clear the newline character
+                    if (menuChoice >= 0 && menuChoice <= 3) {
+                        break;
+                    } else {
+                        System.out.println("\nInvalid input. Please enter a valid option.");
+                        System.out.print("Enter Your Option: ");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("\nInvalid input. Please enter a valid option.");
+                    scanner.next();  // Clear the invalid input
+                    System.out.print("Enter Your Option: ");
                 }
             }
-        }
-    }
-    
-    private static boolean login(String inputUsername, String inputPassword) {
-        return inputUsername.equals(username) && inputPassword.equals(password);
-    }
 
-    private static void logout() {
-        System.out.println("Logging out......");
-        System.out.println("Goodbye!!!");
+            switch (menuChoice) {
+                case 1: {
+                    System.out.println("1");
+                    break;
+                }
+
+                case 2: {
+                    System.out.println("2");
+                    break;
+                }
+
+                case 3: {
+                    System.out.println("3");
+                    break;
+                }
+
+                case 0: {
+                    System.out.println("Ciao");
+                    break;
+                }
+            }
+            
+            if (menuChoice == 0) {
+                break;
+            }
+            
+            System.out.print("Do you want to continue to view the other Modules? (Y/N): ");
+            continueMenu = scanner.next().charAt(0);
+            scanner.nextLine();
+
+            while (continueMenu != 'Y' && continueMenu != 'y' && continueMenu != 'N' && continueMenu != 'n') {
+                System.out.println("Invalid input, Please Try Again.");
+                System.out.print("Do you want to continue to view the other Modules? (Y/N): ");
+                continueMenu = scanner.next().charAt(0);
+                scanner.nextLine();
+            }
+
+        } while (continueMenu == 'Y' || continueMenu == 'y');
+        System.out.println("Thanks for using XXX Grocery POS System.");
+        System.out.println("Hope to see you next time.");
     }
-    
-    
 }
-    
-    
- 

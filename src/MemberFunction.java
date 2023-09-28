@@ -82,7 +82,7 @@ public class MemberFunction {
                     String formattedMember = String.format("%s %s %s %s", m[0], m[1], m[2], m[3]);
                     pw.println(formattedMember);
                 }
-                
+
             }
 
             pw.close();
@@ -90,5 +90,24 @@ public class MemberFunction {
             System.err.println("Error writing to the file: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    public static void editMember(ArrayList<String[]> memberList) {
+        try {
+            File memberFile = new File("members.txt");
+            FileWriter fw = new FileWriter(memberFile);
+            PrintWriter pw = new PrintWriter(fw);
+
+            for (String[] m : memberList) {
+                String formattedMember = String.format("%s %s %s %s", m[0], m[1], m[2], m[3]);
+                pw.println(formattedMember);
+            }
+
+            pw.close();
+        } catch (IOException e) {
+            System.err.println("Error writing to the file: " + e.getMessage());
+            e.printStackTrace();
+        }
+
     }
 }
