@@ -121,9 +121,9 @@ public class PaymentReceiptDriver {
                     CashPayment searchPayment;
                     searchPayment = new CashPayment(Double.parseDouble(m[1]), Integer.parseInt(m[0]));
                     System.out.println("\n" + searchPayment.toString() + ".\n");
-                }else if(formattedMethod.equals("Credit Card")){
+                } else if (formattedMethod.equals("Credit Card")) {
                     CreditCardPayment searchPayment;
-                    searchPayment = new CreditCardPayment(Double.parseDouble(m[1]), Integer.parseInt(m[0]),"dummy");
+                    searchPayment = new CreditCardPayment(Double.parseDouble(m[1]), Integer.parseInt(m[0]), "dummy");
                     System.out.println("\n" + searchPayment.toString() + ".\n");
                 }
 
@@ -242,19 +242,21 @@ public class PaymentReceiptDriver {
                     System.out.print("\nEnter credit card number(12digits):");
                     String inputCardNum = scan.nextLine();
                     double totalAmount = 90.00;
-                    CreditCardPayment creditCardPayment = new CreditCardPayment(totalAmount, 1001, inputCardNum);
+
+                    ArrayList<String[]> payments = PaymentFileFunction.readPayment();
+                    int lastIndex = payments.size() - 1;
+                    String[] lastpayment = payments.get(lastIndex);
+                    Integer lastPaymentInt = Integer.valueOf(lastpayment[0]) + 1;
+
+                    CreditCardPayment creditCardPayment = new CreditCardPayment(totalAmount, lastPaymentInt, inputCardNum);
                     checkCardNum = creditCardPayment.checkCardID(inputCardNum);
                     if (!checkCardNum) {
                         System.out.println("Credit card number is invalid!");
                     } else {
                         creditCardPayment.paymentSuccessful(totalAmount, creditCardPayment.getPaymentID());
-                        ArrayList<String[]> payments = PaymentFileFunction.readPayment();
-                        int lastIndex = payments.size() - 1;
-                        String[] lastpayment = payments.get(lastIndex);
                         String[] tempPaymentMethod = creditCardPayment.getPaymentMethod().split(" ");
                         String paymentMethod = String.join("_", tempPaymentMethod);
                         StringBuilder newPayment = new StringBuilder();
-                        Integer lastPaymentInt = Integer.valueOf(lastpayment[0]) + 1;
                         newPayment.append(lastPaymentInt + " " + totalAmount + " " + paymentMethod);
                         String newPaymentStr = lastPaymentInt + " " + totalAmount + " " + paymentMethod + "\n";
                         PaymentFileFunction.addPayment(newPaymentStr);
@@ -300,16 +302,16 @@ public class PaymentReceiptDriver {
                     }
                 }
 
-                CashPayment cashPayment = new CashPayment(totalPaid, 1001);
-                cashPayment.calculateBalance(totalPaid, 90);
-                cashPayment.paymentSuccessful(totalPaid, cashPayment.getPaymentID());
                 ArrayList<String[]> payments = PaymentFileFunction.readPayment();
                 int lastIndex = payments.size() - 1;
                 String[] lastpayment = payments.get(lastIndex);
+                Integer lastPaymentInt = Integer.valueOf(lastpayment[0]) + 1;
+                CashPayment cashPayment = new CashPayment(totalPaid, lastPaymentInt);
+                cashPayment.calculateBalance(totalPaid, 90);
+                cashPayment.paymentSuccessful(totalPaid, cashPayment.getPaymentID());
                 String[] tempPaymentMethod = cashPayment.getPaymentMethod().split(" ");
                 String paymentMethod = String.join("_", tempPaymentMethod);
                 StringBuilder newPayment = new StringBuilder();
-                Integer lastPaymentInt = Integer.valueOf(lastpayment[0]) + 1;
                 newPayment.append(lastPaymentInt + " " + totalPaid + " " + paymentMethod);
                 String newPaymentStr = lastPaymentInt + " " + totalPaid + " " + paymentMethod + "\n";
                 PaymentFileFunction.addPayment(newPaymentStr);
