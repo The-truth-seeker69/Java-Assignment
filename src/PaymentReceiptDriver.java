@@ -77,7 +77,7 @@ public class PaymentReceiptDriver {
                 ArrayList<Integer> paymentIDList = new ArrayList<>();
                 int element = 0;
                 int paymentId;
-                boolean memberFound = false;
+                boolean paymentFound = false;
 
                 for (String[] m : payments) {
                     paymentIDList.add(Integer.parseInt(m[0]));
@@ -89,16 +89,16 @@ public class PaymentReceiptDriver {
                         paymentId = scan.nextInt();
                         scan.nextLine();  // clear the newline character
 
-                        while (!memberFound) {
+                        while (!paymentFound) {
                             element = 0;
                             for (Integer i : paymentIDList) {
                                 if (i == paymentId) {
-                                    memberFound = true;
+                                    paymentFound = true;
                                     break;
                                 }
                                 element++;
                             }
-                            if (memberFound) {
+                            if (paymentFound) {
                                 break;
                             }
                             System.out.println("Payment ID not Found. Please Try Again.");
@@ -113,13 +113,19 @@ public class PaymentReceiptDriver {
                     }
                 }
 
-                // Print the found member's details
+                // Print the found payment's details
                 String[] m = payments.get(element);
-                String formattedName = m[2].replace("_", " ");
-                System.out.println("=========================================");
-                System.out.printf("%-11s %-11s  %-10s\n", "Payment ID", "Total Amount", "Payment Method");
-                System.out.printf("%-11s RM%9s   %-10s\n", m[0], m[1], formattedName);
-                System.out.println("=========================================\n");
+                String formattedMethod = m[2].replace("_", " ");
+
+                if (formattedMethod.equals("Cash")) {
+                    CashPayment searchPayment;
+                    searchPayment = new CashPayment(Double.parseDouble(m[1]), Integer.parseInt(m[0]));
+                    System.out.println("\n" + searchPayment.toString() + ".\n");
+                }else if(formattedMethod.equals("Credit Card")){
+                    CreditCardPayment searchPayment;
+                    searchPayment = new CreditCardPayment(Double.parseDouble(m[1]), Integer.parseInt(m[0]),"dummy");
+                    System.out.println("\n" + searchPayment.toString() + ".\n");
+                }
 
             }
 
@@ -185,18 +191,18 @@ public class PaymentReceiptDriver {
 
                     if (Character.toUpperCase(confirmDel) == 'Y') {
                         PaymentFileFunction.deletePayment(payments, element);
-                        System.out.println("\nPayment with ID:" + delPaymentStrArr[0] + " Has Been Deleted SuccessFully from the Database.");
+                        System.out.println("\nPayment with ID:" + delPaymentStrArr[0] + " has been deleted successFully.");
                     } else {
                         System.out.println("Payment with ID:" + delPaymentStrArr[0] + " has not been deleted.\n");
                     }
 
-                    System.out.print("Do you want to continue to delete a Payment? (Y/N): ");
+                    System.out.print("Do you want to continue to delete a payment? (Y/N): ");
                     continueDelInput = scan.next().charAt(0);
                     scan.nextLine();
 
                     while (continueDelInput != 'Y' && continueDelInput != 'y' && continueDelInput != 'N' && continueDelInput != 'n') {
                         System.out.println("Invalid input, Please Try Again.");
-                        System.out.print("Do you want to continue to delete a Payment? (Y/N): ");
+                        System.out.print("Do you want to continue to delete a payment? (Y/N): ");
                         continueDelInput = scan.next().charAt(0);
                         scan.nextLine();
                     }
@@ -205,7 +211,7 @@ public class PaymentReceiptDriver {
                         continueDel = true;
                     } else {
                         continueDel = false;
-                        System.out.println("Redirected you out of the Delete Payment Function.");
+                        System.out.println("End of delete payment function.");
                     }
                 } while (continueDel == true);
             }
@@ -256,7 +262,7 @@ public class PaymentReceiptDriver {
 
                     if (checkCardNum) {
                         do {
-                            System.out.print("Thanks for purchasing.Print receipt? (Y/N):");
+                            System.out.print("Thanks for purchasing. Print receipt? (Y/N):");
                             printChoice = scan.next();
                             scan.nextLine();
 
@@ -309,7 +315,7 @@ public class PaymentReceiptDriver {
                 PaymentFileFunction.addPayment(newPaymentStr);
 
                 do {
-                    System.out.print("Thanks for purchasing.Print receipt? (Y/N):");
+                    System.out.print("Thanks for purchasing. Print receipt? (Y/N):");
                     printChoice = scan.next();
                     scan.nextLine();
 

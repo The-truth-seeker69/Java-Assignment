@@ -49,5 +49,10 @@ public class CreditCardPayment extends Payment {
         System.out.printf("Payment for account %s is successful! A total of RM%.02f is paid.\n",creditCardID,totalPaid);
         super.setPaymentID(paymentID++);
     }
+    
+     @Override
+    public String toString() {
+        return "Payment with ID " +super.getPaymentID()+ " and total amount of RM " + super.getTotalPaid() + " is paid using " + paymentMethod;
+    }
 
 }

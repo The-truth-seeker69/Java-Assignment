@@ -33,4 +33,9 @@ public class CashPayment extends Payment {
         System.out.println("Payment ID:" + paymentID);
         System.out.printf("A total payment of RM%.02f is successful with a balance of RM%.02f.\n",totalPaid,balance);
     }
+
+    @Override
+    public String toString() {
+        return "Payment with ID " +super.getPaymentID()+ " and total amount of RM " + super.getTotalPaid() + " is paid using " + paymentMethod;
+    }
 }
