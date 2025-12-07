@@ -1,4 +1,7 @@
+package model;
 
+
+import service.MemberFunction;
 import java.util.ArrayList;
 
 /*
