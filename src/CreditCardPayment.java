@@ -10,7 +10,7 @@
 public class CreditCardPayment extends Payment {
 
     private String creditCardID;
-    private String paymentMethod="Credit card";
+    private String paymentMethod="Credit Card";
     private final double BALANCE = 0;
 
     public String getCreditCardID() {

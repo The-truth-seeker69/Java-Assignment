@@ -32,7 +32,7 @@ import java.io.FileNotFoundException;
 // ask orderId
 public class Order {
 
-    static ArrayList<String> orderArr = new ArrayList<>();
+    ArrayList<String> orderArr = new ArrayList<>();
     private int quantity;
     private int orderNo;
     private double subtotal;
@@ -44,12 +44,12 @@ public class Order {
     char cont;
     Scanner scan = new Scanner(System.in);
 
-    public static ArrayList<String> getOrderArr() {
+    public ArrayList<String> getOrderArr() {
         return orderArr;
     }
 
-    public static void setOrderArr(ArrayList<String> orderArr) {
-        Order.orderArr = orderArr;
+    public void setOrderArr(ArrayList<String> orderArr) {
+        this.orderArr = orderArr;
     }
 
     public int getQuantity() {

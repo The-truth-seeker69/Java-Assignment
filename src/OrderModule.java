@@ -176,7 +176,7 @@ public class OrderModule {
 
         int lastOrderNoElement = orderNoList.size() - 1;
         lastOrderNo = orderNoList.get(lastOrderNoElement);
-        ArrayList<String> orderArr = Order.getOrderArr();
+        ArrayList<String> orderArr = new Order().getOrderArr();
 
         FileWriter orderFile = new FileWriter("order.txt", true);
         BufferedWriter writerOrder = new BufferedWriter(orderFile);

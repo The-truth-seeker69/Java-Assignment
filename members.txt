@@ -6,4 +6,6 @@
 1006 wei_quan M 18
 1007 Jason F 19
 1008 Alex F 88
-1011 Junwai M 19
+1009 Junwai M 19
+1010 Jason M 20
+1011 Kang_Kang M 18
