@@ -1,4 +1,4 @@
-package service;
+package controller;
 
 import model.Order;
 import model.CashPayment;

@@ -1,7 +1,7 @@
 package model;
 
 
-import service.MemberFunction;
+import controller.MemberFunction;
 import java.util.ArrayList;
 
 /*
