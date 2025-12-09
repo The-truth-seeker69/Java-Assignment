@@ -1,7 +1,6 @@
 package model;
 
-
-import controller.MemberFunction;
+import service.MemberService;
 import java.util.ArrayList;
 
 /*
@@ -58,21 +57,14 @@ public class Member {
         this.age = age;
     }
 
+    /**
+     * Checks if a member ID exists in the system.
+     * 
+     * @param memberId The member ID to check
+     * @return true if member exists, false otherwise
+     */
     public static boolean isMember(int memberId) {
-        ArrayList<String[]> membersList = MemberFunction.scanMembers();
-        ArrayList<Integer> memberIdList = new ArrayList<>();
-        
-        for (String[] m : membersList) {
-            memberIdList.add(Integer.parseInt(m[0]));
-        }
-        
-        for (Integer memId : memberIdList){
-            if(memId.intValue() == memberId){
-                return true;
-            }
-        }
-        
-        return false;
+        return MemberService.isMember(memberId);
     }
 
     //Override the toString method.

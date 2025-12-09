@@ -1,73 +1,82 @@
 package model;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+import java.util.ArrayList;
 
 /**
- *
- * @author Wei Quan
+ * Order model class representing an order in the system.
+ * Stores order information including order items and quantities.
+ * 
+ * @author Software Maintenance Team
  */
-import java.util.Scanner;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.io.File;
-import java.io.IOException;
-import java.io.FileNotFoundException;
-
-//add order
-//display product menu
-// ask user to enter no of product (product index+1)
-// ask quantity of product
-// ask confirm
-// ask continue or not
-// if yes continue until user say no
-//ask if user a member
-// ask after subtotal
-// if yes give discount
-// display the subtotal, tax, total
-//delete order
-//ask which order to delete and display order
-// ask orderId
 public class Order {
 
-    ArrayList<String> orderArr = new ArrayList<>();
+    /** List of order items (product name, price, quantity) */
+    private ArrayList<String> orderArr = new ArrayList<>();
+
+    /** Order quantity */
     private int quantity;
+
+    /** Order number */
     private int orderNo;
-    private double subtotal;
-    private final double TAX = 0.05;
-    private double total;
-    private boolean isMember;
-    String[] item;
 
-    char cont;
-    Scanner scan = new Scanner(System.in);
+    /**
+     * Constructor for creating an Order instance.
+     */
+    public Order() {
+        this.orderArr = new ArrayList<>();
+    }
 
+    /**
+     * Gets the list of order items.
+     * 
+     * @return ArrayList of order items
+     */
     public ArrayList<String> getOrderArr() {
         return orderArr;
     }
 
+    /**
+     * Sets the list of order items.
+     * 
+     * @param orderArr The new list of order items
+     */
     public void setOrderArr(ArrayList<String> orderArr) {
         this.orderArr = orderArr;
     }
 
+    /**
+     * Gets the order quantity.
+     * 
+     * @return The order quantity
+     */
     public int getQuantity() {
         return quantity;
     }
 
+    /**
+     * Sets the order quantity.
+     * 
+     * @param quantity The new order quantity
+     */
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
+    /**
+     * Gets the order number.
+     * 
+     * @return The order number
+     */
     public int getOrderNo() {
         return orderNo;
     }
 
+    /**
+     * Sets the order number.
+     * 
+     * @param orderNo The new order number
+     */
     public void setOrderNo(int orderNo) {
         this.orderNo = orderNo;
     }
-
 }
