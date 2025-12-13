@@ -70,30 +70,21 @@ CREATE TABLE IF NOT EXISTS payments (
 -- =====================================================
 -- Table: users
 -- Stores system user credentials for login
--- Password field stores SHA-256 hashed passwords (64 characters)
 -- =====================================================
 CREATE TABLE IF NOT EXISTS users (
     username VARCHAR(50) PRIMARY KEY,
-    password VARCHAR(64) NOT NULL,
+    password VARCHAR(100) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- =====================================================
--- Insert default admin users with encrypted passwords
--- Passwords are hashed using SHA-256 for security
+-- Insert default admin user
 -- =====================================================
--- Default Admin Users:
--- Username: admin          | Password: admin123
--- Username: superadmin     | Password: superadmin
--- Username: manager        | Password: manager2024
--- Username: sysadmin       | Password: sysadmin
-
-INSERT INTO users (username, password) VALUES 
-('admin', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9'),
-('superadmin', '109f4b3c50d7b0df729d299bc6f8e9ef9066971f7db7e6c3c37bf0f16e9c3bcb'),
-('manager', 'ef0f0c67f35d0d4e720e2f857ac7c7e7b3e31e3fe0e753e8c7e5e5c8f63df1b0'),
-('sysadmin', '8abce5f61b1a6fbddb5c3e4f8e1b7c5c2f5c4e5e9c8b1b5e6f5c8d1c5e7a8c4d')
-ON DUPLICATE KEY UPDATE password = VALUES(password);
+INSERT INTO users (username, password, created_at) VALUES ('admin', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', '2025-12-08 23:56:47');
+INSERT INTO users (username, password, created_at) VALUES ('manager', 'ef0f0c67f35d0d4e720e2f857ac7c7e7b3e31e3fe0e753e8c7e5e5c8f63df1b0', '2025-12-10 00:05:50');
+INSERT INTO users (username, password, created_at) VALUES ('newAdmin', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', '2025-12-13 11:19:52');
+INSERT INTO users (username, password, created_at) VALUES ('superadmin', '109f4b3c50d7b0df729d299bc6f8e9ef9066971f7db7e6c3c37bf0f16e9c3bcb', '2025-12-10 00:05:50');
+INSERT INTO users (username, password, created_at) VALUES ('sysadmin', '8abce5f61b1a6fbddb5c3e4f8e1b7c5c2f5c4e5e9c8b1b5e6f5c8d1c5e7a8c4d', '2025-12-10 00:05:50');
 
 -- =====================================================
 -- Sample Data (Optional)
@@ -155,3 +146,4 @@ INSERT INTO payments (payment_id, order_id, total, discount, subtotal, total_pai
 -- =====================================================
 -- End of Schema
 -- =====================================================
+
