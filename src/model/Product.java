@@ -13,20 +13,6 @@ import java.util.ArrayList;
  */
 public class Product {
 
-    /**
-     * Static list of product names (DEPRECATED - use database instead)
-     * Kept for backward compatibility only
-     */
-    @Deprecated
-    private static ArrayList<String> productsArr = new ArrayList<>();
-
-    /**
-     * Static list of product prices (DEPRECATED - use database instead)
-     * Kept for backward compatibility only
-     */
-    @Deprecated
-    private static ArrayList<Double> productsPriceArr = new ArrayList<>();
-
     /** Product name */
     private String productName;
 
@@ -44,49 +30,7 @@ public class Product {
         this.productPrice = productPrice;
     }
 
-    /**
-     * Gets the list of product names (DEPRECATED).
-     * Returns empty list - data is now in database.
-     * 
-     * @return Empty ArrayList (for backward compatibility)
-     */
-    @Deprecated
-    public static ArrayList<String> getProductsArr() {
-        return productsArr; // Returns empty list - use ProductService.getAllProducts() instead
-    }
-
-    /**
-     * Sets the list of product names (DEPRECATED).
-     * 
-     * @param productsArr The new list of product names
-     */
-    @Deprecated
-    public static void setProductsArr(ArrayList<String> productsArr) {
-        Product.productsArr = productsArr;
-    }
-
-    /**
-     * Gets the list of product prices (DEPRECATED).
-     * Returns empty list - data is now in database.
-     * 
-     * @return Empty ArrayList (for backward compatibility)
-     */
-    @Deprecated
-    public static ArrayList<Double> getProductsPriceArr() {
-        return productsPriceArr; // Returns empty list - use ProductService.getAllProducts() instead
-    }
-
-    /**
-     * Sets the list of product prices (DEPRECATED).
-     * 
-     * @param productsPriceArr The new list of product prices
-     */
-    @Deprecated
-    public static void setProductsPriceArr(ArrayList<Double> productsPriceArr) {
-        Product.productsPriceArr = productsPriceArr;
-    }
-
-    /**
+     /**
      * Gets the product name.
      * 
      * @return The product name
