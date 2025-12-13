@@ -249,8 +249,11 @@ public class OrderView extends JFrame {
         searchButton.addActionListener(e -> searchOrder());
         refreshButton = new JButton("Refresh");
         refreshButton.addActionListener(e -> loadOrders());
+        JButton deleteButton = new JButton("Delete Selected Order");
+        deleteButton.addActionListener(e -> deleteOrder());
         buttonPanel.add(searchButton);
         buttonPanel.add(refreshButton);
+        buttonPanel.add(deleteButton);
         panel.add(buttonPanel, BorderLayout.SOUTH);
 
         return panel;
@@ -505,6 +508,50 @@ public class OrderView extends JFrame {
             PaymentView.showPaymentView(total, discount, subtotal, orderDetails, orderId, this);
         } catch (Exception e) {
             UIHelper.showError(this, "Error creating order: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Deletes selected order and associated payment.
+     * Implements cascading delete: Payment first, then Order.
+     */
+    private void deleteOrder() {
+        int row = orderTable.getSelectedRow();
+        if (row == -1) {
+            UIHelper.showWarning(this, "Please select an order to delete.");
+            return;
+        }
+
+        String orderIdStr = orderTableModel.getValueAt(row, 0).toString();
+        try {
+            int orderId = Integer.parseInt(orderIdStr);
+
+            // Confirm deletion
+            if (!UIHelper.confirm(this, "Are you sure you want to delete Order ID " + orderId +
+                    "?\n\nThis will also delete the associated payment.")) {
+                return;
+            }
+
+            // Find and delete associated payment first (to maintain referential integrity)
+            String[] payment = service.PaymentService.getPaymentByOrderId(orderId);
+            if (payment != null) {
+                int paymentId = Integer.parseInt(payment[0]);
+                service.PaymentService.deletePaymentById(paymentId);
+                // Logging handled in PaymentService
+            }
+
+            // Delete the order
+            boolean deleted = OrderService.deleteOrder(orderId);
+            if (deleted) {
+                UIHelper.showSuccess(this, "Order ID " + orderId + " deleted successfully!");
+                loadOrders();
+            } else {
+                UIHelper.showError(this, "Order ID " + orderId + " not found.");
+            }
+        } catch (NumberFormatException e) {
+            UIHelper.showError(this, "Invalid order ID format.");
+        } catch (Exception e) {
+            UIHelper.showError(this, "Error deleting order: " + e.getMessage());
         }
     }
 

@@ -32,3 +32,16 @@
 13/12/2025 20:53:39 Failed login attempt for username: admin
 13/12/2025 20:58:05 System started
 13/12/2025 20:58:12 "selicia" Logged into the system
+13/12/2025 21:03:09 System started
+13/12/2025 21:03:16 "admin" Logged into the system
+13/12/2025 21:09:53 "admin" Logged out of the system
+13/12/2025 21:09:57 System started
+13/12/2025 21:10:07 "admin" Logged into the system
+13/12/2025 21:30:03 Order created: ID=1017 by "admin"
+13/12/2025 21:30:37 Payment recorded: ID=1016, Order ID=1017, Amount: 23.31, Method: Credit Card by "admin"
+13/12/2025 21:31:02 Order created: ID=1018 by "admin"
+13/12/2025 21:31:06 Payment recorded: ID=1017, Order ID=1018, Amount: 33.21, Method: Credit Card by "admin"
+13/12/2025 21:56:45 System started
+13/12/2025 21:56:53 "admin" Logged into the system
+13/12/2025 21:57:03 Payment deleted: ID=1017 by "admin"
+13/12/2025 21:57:03 Order deleted: ID=1018 by "admin"

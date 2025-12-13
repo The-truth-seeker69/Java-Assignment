@@ -131,6 +131,36 @@ public class PaymentService {
     }
 
     /**
+     * Gets a payment by order ID.
+     * 
+     * @param orderId The order ID to search for
+     * @return Payment data array, or null if not found
+     */
+    public static String[] getPaymentByOrderId(int orderId) {
+        String sql = "SELECT payment_id, order_id, total, discount, total_paid, payment_method " +
+                "FROM payments WHERE order_id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, orderId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return new String[] {
+                            String.valueOf(rs.getInt("payment_id")),
+                            String.valueOf(rs.getInt("order_id")),
+                            String.valueOf(rs.getDouble("total")),
+                            String.valueOf(rs.getDouble("discount")),
+                            String.valueOf(rs.getDouble("total_paid")),
+                            rs.getString("payment_method")
+                    };
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error getting payment by order ID: " + e.getMessage());
+        }
+        return null;
+    }
+
+    /**
      * Gets next available payment ID.
      */
     public static int getNextPaymentId() {
