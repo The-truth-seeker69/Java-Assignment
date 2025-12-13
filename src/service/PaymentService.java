@@ -3,6 +3,8 @@ package service;
 import database.DatabaseConnection;
 import java.sql.*;
 import java.util.ArrayList;
+import util.AuditLogger;
+import util.SessionManager;
 
 /**
  * Payment Service - Database Operations
@@ -64,6 +66,8 @@ public class PaymentService {
             pstmt.setDouble(6, totalPaid);
             pstmt.setString(7, paymentMethod);
             pstmt.executeUpdate();
+            AuditLogger.logf("Payment recorded: ID=%d, Order ID=%d, Amount: %.2f, Method: %s by \"%s\"",
+                    paymentId, orderId, totalPaid, paymentMethod, SessionManager.getCurrentUsername());
         }
     }
 
@@ -83,6 +87,8 @@ public class PaymentService {
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, paymentId);
             pstmt.executeUpdate();
+            AuditLogger.logf("Payment deleted: ID=%d by \"%s\"",
+                    paymentId, SessionManager.getCurrentUsername());
         }
     }
 

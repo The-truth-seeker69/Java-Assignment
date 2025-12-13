@@ -3,6 +3,8 @@ package service;
 import database.DatabaseConnection;
 import java.sql.*;
 import java.util.ArrayList;
+import util.AuditLogger;
+import util.SessionManager;
 
 /**
  * Product Service - Database Operations
@@ -51,6 +53,8 @@ public class ProductService {
             pstmt.setString(1, productName.trim());
             pstmt.setDouble(2, productPrice);
             pstmt.executeUpdate();
+            AuditLogger.logf("Product added: %s, Price: %.2f by \"%s\"",
+                    productName.trim(), productPrice, SessionManager.getCurrentUsername());
         }
     }
 
@@ -62,7 +66,12 @@ public class ProductService {
         try (Connection conn = DatabaseConnection.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, productName);
-            return pstmt.executeUpdate() > 0;
+            boolean deleted = pstmt.executeUpdate() > 0;
+            if (deleted) {
+                AuditLogger.logf("Product deleted: %s by \"%s\"",
+                        productName, SessionManager.getCurrentUsername());
+            }
+            return deleted;
         }
     }
 
@@ -81,7 +90,13 @@ public class ProductService {
             pstmt.setString(1, newProductName.trim());
             pstmt.setDouble(2, newProductPrice);
             pstmt.setString(3, oldProductName);
-            return pstmt.executeUpdate() > 0;
+            boolean modified = pstmt.executeUpdate() > 0;
+            if (modified) {
+                AuditLogger.logf("Product modified: %s -> %s, Price: %.2f by \"%s\"",
+                        oldProductName, newProductName.trim(), newProductPrice,
+                        SessionManager.getCurrentUsername());
+            }
+            return modified;
         }
     }
 

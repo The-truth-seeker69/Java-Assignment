@@ -1,0 +1,28 @@
+13/12/2025 17:30:25 System started
+13/12/2025 17:30:30 "admin" Logged into the system
+13/12/2025 17:30:42 Member added: ID=1009, Name=Nick by "admin"
+13/12/2025 17:30:55 Member data updated by "admin"
+13/12/2025 17:31:16 Member data updated by "admin"
+13/12/2025 17:31:22 Member deleted: ID=1009 by "admin"
+13/12/2025 17:31:45 Product added: Chipi chipa, Price: 123.00 by "admin"
+13/12/2025 17:31:54 Product modified: Chipi chipa -> Chipi chipaaa, Price: 123.00 by "admin"
+13/12/2025 17:31:58 Product deleted: Chipi chipaaa by "admin"
+13/12/2025 17:32:12 "admin" Logged out of the system
+13/12/2025 17:42:04 System started
+13/12/2025 17:42:14 "newAdmin" Logged into the system
+13/12/2025 17:42:27 Member added: ID=1009, Name=Nick by "newAdmin"
+13/12/2025 17:42:33 Member data updated by "newAdmin"
+13/12/2025 17:42:50 "newAdmin" Logged out of the system
+13/12/2025 17:45:38 System started
+13/12/2025 17:45:47 "newAdmin" Logged into the system
+13/12/2025 17:46:00 Member modified: ID=1009, Age: 21 -> 22 by "newAdmin"
+13/12/2025 17:46:13 Member modified: ID=1009, Name: Nick -> Nick_Lim, Gender: M -> F, Age: 22 -> 21 by "newAdmin"
+13/12/2025 17:46:22 Member deleted: ID=1009 by "newAdmin"
+13/12/2025 17:46:39 Order created: ID=1016 by "newAdmin"
+13/12/2025 17:46:45 Payment recorded: ID=1015, Order ID=1016, Amount: 250.00, Method: Cash by "newAdmin"
+13/12/2025 17:47:08 Product added: Kopi, Price: 12.00 by "newAdmin"
+13/12/2025 17:47:15 Product modified: Kopi -> Kopi beng, Price: 12.00 by "newAdmin"
+13/12/2025 17:47:17 Product deleted: Kopi beng by "newAdmin"
+13/12/2025 17:47:22 "newAdmin" Logged out of the system
+13/12/2025 19:29:43 System started
+13/12/2025 19:29:49 "admin" Logged into the system

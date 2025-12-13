@@ -4,12 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 import model.User;
 import service.UserService;
+import util.AuditLogger;
+import util.SessionManager;
 
 public class Login {
 
     private static JFrame mainMenuFrame = null; // Track main menu instance to prevent duplicates
 
     public static void main(String[] args) {
+        AuditLogger.log("System started");
         showLogin();
     }
 
@@ -44,11 +47,14 @@ public class Login {
             User authenticatedUser = UserService.authenticate(usernameInput, passwordInput);
 
             if (authenticatedUser != null) {
+                SessionManager.setCurrentUser(authenticatedUser);
+                AuditLogger.logf("\"%s\" Logged into the system", authenticatedUser.getUsername());
                 JOptionPane.showMessageDialog(frame, "Login Successful!");
                 frame.dispose();
                 // after login show the menu
                 showMainMenu();
             } else {
+                AuditLogger.logf("Failed login attempt for username: %s", usernameInput);
                 JOptionPane.showMessageDialog(frame, "Invalid Login Credentials!");
                 userText.setText("");
                 passwordText.setText("");
@@ -127,6 +133,9 @@ public class Login {
         });
 
         logoutBtn.addActionListener(e -> {
+            String username = SessionManager.getCurrentUsername();
+            AuditLogger.logf("\"%s\" Logged out of the system", username);
+            SessionManager.clearSession();
             JOptionPane.showMessageDialog(frame,
                     "Thanks for using TARUMT Grocery POS System.\nHope to see you next time.");
             mainMenuFrame = null; // Clear reference before disposing

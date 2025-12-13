@@ -1,15 +1,26 @@
 package util;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 /**
- *
+ * Validations Utility
+ * 
+ * Provides validation methods for user input (names, ages).
+ * Ensures data integrity before storing in the database.
+ * 
  * @author User
  */
 public class Validations {
+
+    /**
+     * Validates a name string.
+     * 
+     * Rules:
+     * - Must not be null or empty
+     * - Length must be between 3 and 50 characters
+     * - Only letters, spaces, hyphens, and apostrophes allowed
+     * 
+     * @param name The name to validate
+     * @return true if valid, false otherwise
+     */
     public static boolean isValidName(String name) {
         // Check for non-empty and non-null
         if (name == null || name.isEmpty()) {
@@ -18,7 +29,7 @@ public class Validations {
 
         // Check for length
         int minLength = 3;
-        int maxLength = 50;  
+        int maxLength = 50;
         if (name.length() < minLength || name.length() > maxLength) {
             return false;
         }
@@ -28,11 +39,20 @@ public class Validations {
             return false;
         }
 
-        // Additional custom rules can be added here based on your requirements
-
         return true;
     }
-    
+
+    /**
+     * Validates an age value.
+     * 
+     * Rules:
+     * - Must be non-negative
+     * - Must be between 18 and 90 (valid membership age range)
+     * 
+     * @param age The age to validate
+     * @return true if valid, false otherwise
+     */
+
     public static boolean isValidAge(int age) {
         // Check if age is non-negative
         if (age < 0) {

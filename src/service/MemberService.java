@@ -3,6 +3,8 @@ package service;
 import database.DatabaseConnection;
 import java.sql.*;
 import java.util.ArrayList;
+import util.AuditLogger;
+import util.SessionManager;
 
 /**
  * Member Service - Database Operations
@@ -58,6 +60,8 @@ public class MemberService {
             pstmt.setString(3, String.valueOf(gender));
             pstmt.setInt(4, age);
             pstmt.executeUpdate();
+            AuditLogger.logf("Member added: ID=%d, Name=%s by \"%s\"",
+                    memberId, memberName.trim(), SessionManager.getCurrentUsername());
         }
     }
 
@@ -70,6 +74,8 @@ public class MemberService {
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, memberId);
             pstmt.executeUpdate();
+            AuditLogger.logf("Member deleted: ID=%d by \"%s\"",
+                    memberId, SessionManager.getCurrentUsername());
         }
     }
 
@@ -82,6 +88,57 @@ public class MemberService {
         }
         int memberId = Integer.parseInt(memberList.get(deleteIndex)[0]);
         deleteMemberById(memberId);
+    }
+
+    /**
+     * Updates a single member with detailed logging.
+     * Logs specific changes made to the member.
+     */
+    public static void updateMember(int memberId, String oldName, String newName,
+            char oldGender, char newGender, int oldAge, int newAge) throws SQLException {
+        if (newName == null || newName.trim().isEmpty()) {
+            throw new IllegalArgumentException("Member name cannot be empty");
+        }
+        if (newGender != 'M' && newGender != 'F') {
+            throw new IllegalArgumentException("Gender must be 'M' or 'F'");
+        }
+        if (newAge < 18 || newAge > 90) {
+            throw new IllegalArgumentException("Age must be between 18 and 90");
+        }
+
+        String sql = "UPDATE members SET name = ?, gender = ?, age = ? WHERE member_id = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, newName.trim());
+            pstmt.setString(2, String.valueOf(newGender));
+            pstmt.setInt(3, newAge);
+            pstmt.setInt(4, memberId);
+
+            int updated = pstmt.executeUpdate();
+            if (updated > 0) {
+                // Build detailed log message
+                StringBuilder logMsg = new StringBuilder();
+                logMsg.append(String.format("Member modified: ID=%d", memberId));
+
+                // Log name change
+                if (!oldName.equals(newName)) {
+                    logMsg.append(String.format(", Name: %s -> %s", oldName, newName));
+                }
+
+                // Log gender change
+                if (oldGender != newGender) {
+                    logMsg.append(String.format(", Gender: %c -> %c", oldGender, newGender));
+                }
+
+                // Log age change
+                if (oldAge != newAge) {
+                    logMsg.append(String.format(", Age: %d -> %d", oldAge, newAge));
+                }
+
+                logMsg.append(String.format(" by \"%s\"", SessionManager.getCurrentUsername()));
+                AuditLogger.log(logMsg.toString());
+            }
+        }
     }
 
     /**
@@ -110,6 +167,7 @@ public class MemberService {
                     pstmt.executeBatch();
                 }
                 conn.commit();
+                AuditLogger.logf("Member data updated by \"%s\"", SessionManager.getCurrentUsername());
             } catch (SQLException e) {
                 conn.rollback();
                 throw e;

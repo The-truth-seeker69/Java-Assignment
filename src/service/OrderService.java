@@ -3,6 +3,8 @@ package service;
 import database.DatabaseConnection;
 import java.sql.*;
 import java.util.ArrayList;
+import util.AuditLogger;
+import util.SessionManager;
 
 /**
  * Order Service - Database Operations
@@ -48,6 +50,8 @@ public class OrderService {
             pstmt.setInt(1, orderId);
             pstmt.setString(2, orderDetails);
             pstmt.executeUpdate();
+            AuditLogger.logf("Order created: ID=%d by \"%s\"",
+                    orderId, SessionManager.getCurrentUsername());
         }
     }
 
@@ -59,7 +63,12 @@ public class OrderService {
         try (Connection conn = DatabaseConnection.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, orderId);
-            return pstmt.executeUpdate() > 0;
+            boolean deleted = pstmt.executeUpdate() > 0;
+            if (deleted) {
+                AuditLogger.logf("Order deleted: ID=%d by \"%s\"",
+                        orderId, SessionManager.getCurrentUsername());
+            }
+            return deleted;
         }
     }
 

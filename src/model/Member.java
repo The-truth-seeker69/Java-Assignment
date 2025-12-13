@@ -1,14 +1,13 @@
 package model;
 
 import service.MemberService;
-import java.util.ArrayList;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 /**
- *
+ * Member Model
+ * 
+ * Represents a member in the grocery POS system.
+ * Members can receive discounts on orders.
+ * 
  * @author User
  */
 public class Member {
@@ -67,7 +66,7 @@ public class Member {
         return MemberService.isMember(memberId);
     }
 
-    //Override the toString method.
+    // Override the toString method.
     @Override
     public String toString() {
         String genderStr;

@@ -117,10 +117,10 @@ public class MemberView extends JFrame {
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
         if (result == JOptionPane.OK_OPTION) {
-            JTextField nameField = getTextField(panel, 0);
+            JTextField nameField = getTextField(panel, 1);
             @SuppressWarnings("unchecked")
             JComboBox<String> genderCombo = (JComboBox<String>) panel.getComponent(3);
-            JTextField ageField = getTextField(panel, 4);
+            JTextField ageField = getTextField(panel, 5);
             String name = nameField.getText().trim();
             char gender = genderCombo.getSelectedItem().toString().charAt(0);
             String ageText = ageField.getText().trim();
@@ -135,7 +135,7 @@ public class MemberView extends JFrame {
 
                 if (UIHelper.confirm(this, "Add member:\nID: " + memberId + "\nName: " + name +
                         "\nGender: " + gender + "\nAge: " + age + "?")) {
-                    MemberService.addMember(memberId, name, gender, age);
+                    MemberService.addMember(memberId, name.replace(" ", "_"), gender, age);
                     UIHelper.showSuccess(this, "Member added successfully!");
                     loadMembers();
                 }
@@ -167,10 +167,10 @@ public class MemberView extends JFrame {
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
         if (result == JOptionPane.OK_OPTION) {
-            JTextField nameField = getTextField(panel, 0);
+            JTextField nameField = getTextField(panel, 1);
             @SuppressWarnings("unchecked")
             JComboBox<String> genderCombo = (JComboBox<String>) panel.getComponent(3);
-            JTextField ageField = getTextField(panel, 4);
+            JTextField ageField = getTextField(panel, 5);
             String name = nameField.getText().trim();
             char gender = genderCombo.getSelectedItem().toString().charAt(0);
             String ageText = ageField.getText().trim();
@@ -183,21 +183,18 @@ public class MemberView extends JFrame {
                 int id = Integer.parseInt(memberId);
                 int age = Integer.parseInt(ageText);
 
+                // Parse old values for comparison
+                char oldGenderChar = oldGender.charAt(0);
+                int oldAgeInt = Integer.parseInt(oldAge);
+                String oldNameWithUnderscore = oldName.replace(" ", "_");
+                String newNameWithUnderscore = name.replace(" ", "_");
+
                 if (UIHelper.confirm(this, "Modify member ID " + id + "?\nNew Name: " + name +
                         "\nNew Gender: " + gender + "\nNew Age: " + age)) {
-                    ArrayList<String[]> members = MemberService.getAllMembers();
-                    int index = findMemberIndex(members, memberId);
-
-                    if (index != -1) {
-                        members.get(index)[1] = name.replace(" ", "_");
-                        members.get(index)[2] = String.valueOf(gender);
-                        members.get(index)[3] = String.valueOf(age);
-                        MemberService.updateMembers(members);
-                        UIHelper.showSuccess(this, "Member modified successfully!");
-                        loadMembers();
-                    } else {
-                        UIHelper.showError(this, "Member not found.");
-                    }
+                    MemberService.updateMember(id, oldNameWithUnderscore, newNameWithUnderscore,
+                            oldGenderChar, gender, oldAgeInt, age);
+                    UIHelper.showSuccess(this, "Member modified successfully!");
+                    loadMembers();
                 }
             } catch (NumberFormatException e) {
                 UIHelper.showError(this, "Invalid input format.");
@@ -287,7 +284,20 @@ public class MemberView extends JFrame {
     }
 
     /**
-     * Creates member input panel.
+     * Creates member input panel for add/modify dialogs.
+     * 
+     * Panel structure (component indices for getTextField):
+     * - Index 0: JLabel "Name:"
+     * - Index 1: nameField (JTextField) ← use this in getTextField
+     * - Index 2: JLabel "Gender:"
+     * - Index 3: genderCombo (JComboBox)
+     * - Index 4: JLabel "Age:"
+     * - Index 5: ageField (JTextField) ← use this in getTextField
+     * 
+     * @param name   Initial name value (null for add dialog)
+     * @param gender Initial gender value (null for add dialog)
+     * @param age    Initial age value (null for add dialog)
+     * @return Configured input panel
      */
     private JPanel createMemberInputPanel(String name, String gender, String age) {
         JPanel panel = new JPanel(new GridBagLayout());
@@ -324,7 +334,15 @@ public class MemberView extends JFrame {
     }
 
     /**
-     * Gets text field from panel by index.
+     * Gets text field from panel by component index.
+     * 
+     * IMPORTANT: Use correct indices based on createMemberInputPanel structure:
+     * - Index 1 for name field
+     * - Index 5 for age field
+     * 
+     * @param panel The input panel
+     * @param index Component index (NOT label index)
+     * @return JTextField at the specified index
      */
     private JTextField getTextField(JPanel panel, int index) {
         return (JTextField) panel.getComponent(index);
